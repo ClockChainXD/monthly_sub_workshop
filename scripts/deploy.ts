@@ -1,18 +1,22 @@
 import { ethers } from "hardhat";
-
+/*
+Link Token: "0x84b9B910527Ad5C03A9Ca831909E21e236EA7b06"
+Registry: "0x02777053d6764996e594c3E88AF1D58D5363a2e6"
+Registrar: "0xDb8e8e2ccb5C033938736aa89Fe4fa1eDfD15a1d"
+AnaAbonmanSozlesmesi: "0xc21D85b680Ac5ad88559FBd8093338C512e2AAdE"
+AboneToken: "0xDaC819A2A27781a68EE660187f37885796c2cB6E"
+*/
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const Makalelik = await ethers.getContractFactory("Makalelik");
+  const makalelik = await Makalelik.deploy(
+    "0x84b9B910527Ad5C03A9Ca831909E21e236EA7b06", 
+  "0xDb8e8e2ccb5C033938736aa89Fe4fa1eDfD15a1d",
+  "0x02777053d6764996e594c3E88AF1D58D5363a2e6",
+  "0xDaC819A2A27781a68EE660187f37885796c2cB6E");
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  await makalelik.deployed();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  console.log(`Makalelik deployed to ${makalelik.address}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
